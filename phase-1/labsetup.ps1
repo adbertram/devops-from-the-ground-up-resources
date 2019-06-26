@@ -1,5 +1,5 @@
 param(
-	[Parameter(Manadatory)]
+	[Parameter(Mandatory)]
 	[ValidateNotNullOrEmpty()]
 	[string]$AzureRegion = 'East US'
 )
