@@ -21,4 +21,9 @@ $deploymentName = 'DFTGU-Phase1'
 $null = New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $rgName -TemplateFile $templatePath -Verbose
 
 Write-Host 'Your phase 1 lab VM IPs to RDP to are:'
-(Get-AzResourceGroupDeployment -ResourceGroupName $rgName -Name $deploymentName).Outputs.resourceID.value
+$deploymentResult = (Get-AzResourceGroupDeployment -ResourceGroupName $rgName -Name $deploymentName).Outputs
+foreach ($val in $deploymentResult.Values.Value) {
+	$pubIp = Get-AzResource -ResourceId $val
+	$vmName = $pubIp.Id.split('/')[-1].Replace('-pubip', '')
+	Write-Host "VM: $vmName IP: $((Get-AzPublicIpAddress -Name $pubip.Name).IpAddress)"
+}
