@@ -22,8 +22,22 @@ $null = New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $
 
 Write-Host 'Your phase 1 lab VM IPs to RDP to are:'
 $deploymentResult = (Get-AzResourceGroupDeployment -ResourceGroupName $rgName -Name $deploymentName).Outputs
+
+$vmIps = @()
 foreach ($val in $deploymentResult.Values.Value) {
 	$pubIp = Get-AzResource -ResourceId $val
 	$vmName = $pubIp.Id.split('/')[-1].Replace('-pubip', '')
-	Write-Host "VM: $vmName IP: $((Get-AzPublicIpAddress -Name $pubip.Name).IpAddress)"
+	$ip = (Get-AzPublicIpAddress -Name $pubip.Name).IpAddress
+	$vmIps += [pscustomobject]@{
+		Name = $vmName
+		IP   = $ip
+	}
+	Write-Host "VM: $vmName IP: $ip"
+}
+
+$rdpNow = Read-Host -Prompt 'RDP to the required host now (Y,N)?'
+if ($rdpNow -eq 'Y') {
+	$requiredVM = $vmIps.where({ $_.Name -eq 'WIN10' })
+	$ip = $requiredVM.IP
+	mstsc /v:$ip
 }
