@@ -13,7 +13,7 @@ $rgName = 'DevOpsFromTheGroundUpCourse-Phase1'
 
 ## Create the phase's resource group
 if (-not (Get-AzResourceGroup -Name $rgName -Location $AzureRegion -ErrorAction Ignore)) {
-	New-AzResourceGroup -Name $rgName -Location $AzureRegion
+	$null = New-AzResourceGroup -Name $rgName -Location $AzureRegion
 }
 
 ## Deploy phase 1 lab
