@@ -44,11 +44,15 @@ foreach ($val in $deploymentResult.Values.Value) {
 }
 
 if ($env:OS -eq 'Windows_NT') {
+	$null = cmdkey /generic:$ip /user:"devops" /pass:"D3v0psAllTheThings!"
 	$rdpNow = Read-Host -Prompt "RDP to the required host ($RequiredRdpVM) now (Y,N)?"
 	if ($rdpNow -eq 'Y') {
 		$requiredVM = $vmIps.where({ $_.Name -eq $RequiredRdpVM })
 		$ip = $requiredVM.IP
 		mstsc /v:$ip
+		$null = cmdkey /delete:$ip
+	} else {
+		Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
 	}
 } else {
 	Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
