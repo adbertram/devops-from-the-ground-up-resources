@@ -64,7 +64,7 @@ try {
 		Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
 	}
 } catch {
-	$PSCmdlet.ThrowTerminatingError($_)
+	throw $_.Exception.Message
 } finally {
 	$ProgressPreference = $progPrefBefore
 }
