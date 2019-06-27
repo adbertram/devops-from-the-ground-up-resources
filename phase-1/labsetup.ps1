@@ -4,6 +4,8 @@ param(
 	[string]$AzureRegion = 'East US'
 )
 
+$requiredRdpVM = 'WIN10'
+
 ## Download the ARM template
 $templatePath = "$env:TEMP\phase1lab.json"
 $url = 'https://raw.githubusercontent.com/adbertram/devops-from-the-ground-up-resources/master/phase-1/phase1lab.json'
@@ -35,9 +37,9 @@ foreach ($val in $deploymentResult.Values.Value) {
 	Write-Host "VM: $vmName IP: $ip"
 }
 
-$rdpNow = Read-Host -Prompt 'RDP to the required host now (Y,N)?'
+$rdpNow = Read-Host -Prompt "RDP to the required host ($requiredRdpVM) now (Y,N)?"
 if ($rdpNow -eq 'Y') {
-	$requiredVM = $vmIps.where({ $_.Name -eq 'WIN10' })
+	$requiredVM = $vmIps.where({ $_.Name -eq $requiredRdpVM })
 	$ip = $requiredVM.IP
 	mstsc /v:$ip
 }
