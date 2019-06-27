@@ -54,9 +54,7 @@ try {
 		if ($rdpNow -eq 'Y') {
 			$requiredVM = $vmIps.where({ $_.Name -eq $RequiredRdpVM })
 			$ip = $requiredVM.IP
-			$null = cmdkey /generic:$ip /user:"devops" /pass:"D3v0psAllTheThings!"
 			mstsc /v:$ip
-			#$null = cmdkey /delete:$ip
 		} else {
 			Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
 		}
