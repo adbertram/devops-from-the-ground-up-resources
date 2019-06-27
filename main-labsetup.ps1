@@ -56,10 +56,10 @@ try {
 			$ip = $requiredVM.IP
 			mstsc /v:$ip
 		} else {
-			Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
+			Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course. The username and password are provided in the Lab Preparation section of the chapter."
 		}
 	} else {
-		Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course."
+		Write-Host "Please RDP to the VM [$($RequiredRdpVM) : $ip] now to begin course. The username and password are provided in the Lab Preparation section of the chapter."
 	}
 } catch {
 	throw $_.Exception.Message
